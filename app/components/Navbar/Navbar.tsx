@@ -8,14 +8,14 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="overflow-hidden rounded-xl border border-gray-100 bg-gray-200 p-1">
+      <div className="overflow-hidden rounded-xl bg-slate-100 p-1 mb-2">
         <ul className="flex items-center gap-2 text-sm font-medium">
           <li className="flex-1">
             <Link
               href="/menu"
               className={`${
                 path === "/menu" ? "bg-white shadow" : ""
-              } flex items-center justify-center gap-2 rounded-lg px-3 py-2 hover:bg-white hover:text-gray-700`}
+              } flex items-center justify-center gap-2 rounded-lg px-3 py-2`}
             >
               Menu
             </Link>
@@ -25,7 +25,7 @@ const Navbar = () => {
               href="/order"
               className={`${
                 path === "/order" ? "bg-white shadow" : ""
-              } flex items-center justify-center gap-2 rounded-lg px-3 py-2 hover:bg-white hover:text-gray-700`}
+              } flex items-center justify-center gap-2 rounded-lg px-3 py-2`}
             >
               Order
             </Link>
@@ -35,7 +35,7 @@ const Navbar = () => {
               href="/dapur"
               className={`${
                 path === "/dapur" ? "bg-white shadow" : ""
-              } flex items-center justify-center gap-2 rounded-lg px-3 py-2 hover:bg-white hover:text-gray-700`}
+              } flex items-center justify-center gap-2 rounded-lg px-3 py-2`}
             >
               Dapur
             </Link>
@@ -45,7 +45,7 @@ const Navbar = () => {
               href="/kasir"
               className={`${
                 path === "/kasir" ? "bg-white shadow" : ""
-              } flex items-center justify-center gap-2 rounded-lg px-3 py-2 hover:bg-white hover:text-gray-700`}
+              } flex items-center justify-center gap-2 rounded-lg px-3 py-2`}
             >
               Kasir
             </Link>
