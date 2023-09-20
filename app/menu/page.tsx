@@ -6,11 +6,8 @@ import { AiFillDelete } from "react-icons/ai";
 const MenuPage = () => {
   const [menus, setMenus] = useState<any>(null);
   const [menu, setMenu] = useState<string>("");
-  const [loading, setLoading] = useState<Boolean>(false);
 
   useEffect(() => {
-    setLoading(true);
-
     let local: any = localStorage.getItem("menus");
 
     if (local === null) {
@@ -22,8 +19,6 @@ const MenuPage = () => {
     }
 
     setMenus(JSON.parse(local));
-
-    setLoading(false);
   }, []);
 
   const addHandler: any = () => {
