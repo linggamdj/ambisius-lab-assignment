@@ -9,7 +9,6 @@ const OrderPage = () => {
     menuId: "",
     quantity: 0,
   });
-  const [table, setTable] = useState<any>(null);
   const [menus, setMenus] = useState<any>(null);
   let menuOptions: any[] = [];
   const quantity = [
@@ -113,16 +112,18 @@ const OrderPage = () => {
               onChange={(e: any) => {
                 setForm({ ...form, menuId: e.value });
               }}
+              placeholder="Pilih menu"
               instanceId="menu"
             />
           </div>
-          <div>
+          <div className="w-[120px]">
             <p className="mb-2">Jumlah</p>
             <Select
               options={quantity}
               onChange={(e: any) => {
                 setForm({ ...form, quantity: e.value });
               }}
+              placeholder="Kuantitas"
               instanceId="qty"
             />
           </div>
@@ -132,9 +133,7 @@ const OrderPage = () => {
             onClick={addHandler}
             className="text-right bg-zinc-900 hover:bg-zinc-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
             disabled={
-              form.tableId.length === 0 &&
-              form.menuId.length === 0 &&
-              form.quantity === 0
+              form.tableId === "" || form.menuId === "" || form.quantity === 0
             }
           >
             Tambah
