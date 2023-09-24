@@ -11,7 +11,7 @@ const OrderPage = () => {
   const [form, setForm] = useState<OrderForm>({
     tableId: "",
     menuId: { value: "", label: "Pilih Menu" },
-    quantity: { value: "0", label: "Kuantitas" },
+    quantity: { value: 0, label: "Kuantitas" },
   });
   const [menus, setMenus] = useState<Menus[] | []>();
   let menuOptions: Options[] = [{ value: "", label: "Pilih menu" }];
@@ -64,7 +64,7 @@ const OrderPage = () => {
   return (
     <section className="order">
       <div className="h-auto min-h-[300px] p-5 rounded-xl bg-slate-100 text-sm">
-        <div className="border rounded-xl bg-white mb-2">
+        <div className="border rounded-xl bg-white mb-4">
           <ul className="flex">
             <li className="flex-1">
               <button
@@ -122,12 +122,12 @@ const OrderPage = () => {
             <Select
               value={form.menuId}
               options={menuOptions}
-              onChange={(option: any) => {
+              onChange={(option) => {
                 setForm({
                   ...form,
                   menuId: {
-                    value: option?.value.toString() || "",
-                    label: option?.label.toString() || "",
+                    value: option?.value || "",
+                    label: option?.label || "",
                   },
                 });
               }}
@@ -145,7 +145,7 @@ const OrderPage = () => {
                   ...form,
                   quantity: {
                     value: Number(option?.value),
-                    label: option?.label.toString() || "",
+                    label: option?.label || "",
                   },
                 });
               }}

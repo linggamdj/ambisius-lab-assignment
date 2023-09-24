@@ -45,15 +45,15 @@ const KasirPage = () => {
       });
     });
 
-  const mapMenus = new Map<string, Menus>(
+  const mapMenus = new Map<string | number, Menus>(
     menus?.map((menu: Menus) => [menu.id, menu])
   );
 
   const joinResult = orders
-    ?.filter((order: Orders) => mapMenus.has(order.menuId.toString()))
+    ?.filter((order: Orders) => mapMenus.has(order.menuId))
     .map((order: Orders) => ({
       ...order,
-      menu: mapMenus.get(order.menuId.toString()),
+      menu: mapMenus.get(order.menuId),
     }));
 
   const printHandler = (): void => {

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { Menus } from "../types/Menus.types";
+import { defaultMenus } from "../helpers/Constants";
 
 const MenuPage = () => {
   const [menus, setMenus] = useState<Menus[]>();
@@ -12,10 +13,7 @@ const MenuPage = () => {
     let local: string | null = localStorage.getItem("menus");
 
     if (local === null) {
-      localStorage.setItem(
-        "menus",
-        `[{"id":"123456","name":"Bebek Madura"},{"id":"654321","name":"Sate Kambing"}]`
-      );
+      localStorage.setItem("menus", defaultMenus);
       local = localStorage.getItem("menus") || "[]";
     }
 
@@ -59,7 +57,7 @@ const MenuPage = () => {
           />
           <button
             onClick={addHandler}
-            className="ml-2 bg-zinc-900 hover:bg-zinc-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+            className="ml-2 bg-zinc-900 hover:bg-zinc-700 text-white py-2 px-4 rounded disabled:opacity-50"
             disabled={!menu}
           >
             Tambah
@@ -84,7 +82,7 @@ const MenuPage = () => {
                         <td className="p-4 align-middle">{menu.name}</td>
                         <td className="flex justify-end p-4">
                           <button onClick={() => deleteHandler(menu.id)}>
-                            <AiFillDelete className="text-red-800" />
+                            <AiFillDelete className="text-red-800" size={20} />
                           </button>
                         </td>
                       </tr>
