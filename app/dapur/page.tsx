@@ -1,24 +1,31 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { Menus } from "../types/Menus.types";
+import { Orders } from "../types/Orders.types";
 
 const DapurPage = () => {
-  const [menus, setMenus] = useState<any>([]);
-  const [orders, setOrders] = useState<any>([]);
+  const [menus, setMenus] = useState<Menus[]>([]);
+  const [orders, setOrders] = useState<Orders[]>([]);
 
   useEffect(() => {
-    const localMenus: any = localStorage.getItem("menus");
-    const localOrders: any = localStorage.getItem("orders");
+    const localMenus: string | null = localStorage.getItem("menus");
+    const localOrders: string | null = localStorage.getItem("orders");
 
-    setMenus(JSON.parse(localMenus));
-    setOrders(JSON.parse(localOrders));
+    setMenus(JSON.parse(localMenus || "[]"));
+    setOrders(JSON.parse(localOrders || "[]"));
   }, []);
 
-  const mapMenus = new Map(menus.map((menu: any) => [menu.id, menu]));
+  const mapMenus: Map<string, Menus> = new Map(
+    menus.map((menu: Menus) => [menu.id, menu])
+  );
 
-  const joinResult = orders
-    .filter((order: any) => mapMenus.has(order.menuId))
-    .map((order: any) => ({ ...order, menu: mapMenus.get(order.menuId) }));
+  const joinResult: Orders[] = orders
+    ?.filter((order: Orders) => mapMenus.has(order.menuId))
+    .map((order: Orders) => ({
+      ...order,
+      menu: mapMenus.get(order.menuId) as Menus,
+    }));
 
   return (
     <section className="dapur">
@@ -28,8 +35,8 @@ const DapurPage = () => {
             <p className="text-xl font-medium">Meja 1</p>
             <div className="table-one-orders mt-2">
               {joinResult
-                .filter((res: any) => res.tableId === "1")
-                .map((order: any, i: any) => {
+                ?.filter((order: Orders) => order.tableId === "1")
+                .map((order: Orders, i: number) => {
                   return (
                     <p key={i}>{`${order.quantity}x ${order.menu.name}`}</p>
                   );
@@ -40,8 +47,8 @@ const DapurPage = () => {
             <p className="text-xl font-medium">Meja 2</p>
             <div className="table-two-orders mt-2">
               {joinResult
-                .filter((res: any) => res.tableId === "2")
-                .map((order: any, i: any) => {
+                ?.filter((order: Orders) => order.tableId === "2")
+                .map((order: Orders, i: number) => {
                   return (
                     <p key={i}>{`${order.quantity}x ${order.menu.name}`}</p>
                   );
@@ -52,8 +59,8 @@ const DapurPage = () => {
             <p className="text-xl font-medium">Meja 3</p>
             <div className="table-three-orders mt-2">
               {joinResult
-                .filter((res: any) => res.tableId === "3")
-                .map((order: any, i: any) => {
+                ?.filter((order: Orders) => order.tableId === "3")
+                .map((order: Orders, i: number) => {
                   return (
                     <p key={i}>{`${order.quantity}x ${order.menu.name}`}</p>
                   );
