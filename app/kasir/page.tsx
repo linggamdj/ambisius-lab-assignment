@@ -2,26 +2,32 @@
 
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
+import { Menus } from "../types/Menus.types";
+import { Orders } from "../types/Orders.types";
+import { Options } from "../types/Options.types";
 
 const KasirPage = () => {
-  const [menus, setMenus] = useState<any>(null);
-  const [orders, setOrders] = useState<any>(null);
-  const [ordersById, setOrdersById] = useState<any>(null);
-  const [tableId, setTableId] = useState<any>("");
+  const [menus, setMenus] = useState<Menus[]>([]);
+  const [orders, setOrders] = useState<Orders[]>([]);
+  const [ordersById, setOrdersById] = useState<Orders[]>();
+  const [tableId, setTableId] = useState<Options>({
+    value: "",
+    label: "Nomor Meja",
+  });
   const [isShow, setIsShow] = useState<boolean>(false);
-  let tableOptions: any[] = [];
+  let tableOptions: Options[] = [{ value: "", label: "Nomor Meja" }];
 
   useEffect(() => {
-    const localMenus: any = localStorage.getItem("menus");
-    const localOrders: any = localStorage.getItem("orders");
+    const localMenus: string | null = localStorage.getItem("menus") || "[]";
+    const localOrders: string | null = localStorage.getItem("orders") || "[]";
 
-    setMenus(JSON.parse(localMenus));
-    setOrders(JSON.parse(localOrders));
+    setMenus(JSON.parse(localMenus) || "[]");
+    setOrders(JSON.parse(localOrders) || "[]");
   }, []);
 
   const uniqueIds = new Set<string>();
 
-  const newArr = orders?.filter((order: any) => {
+  const newArr = orders?.filter((order: Orders) => {
     if (!uniqueIds.has(order.tableId)) {
       uniqueIds.add(order.tableId);
       return true;
@@ -31,32 +37,41 @@ const KasirPage = () => {
   });
 
   newArr
-    ?.sort((a: any, b: any) => Number(a.tableId) - Number(b.tableId))
-    .map((order: any) => {
+    ?.sort((a: Orders, b: Orders) => Number(a.tableId) - Number(b.tableId))
+    .map((order: Orders) => {
       tableOptions.push({
         value: order.tableId,
         label: order.tableId,
       });
     });
 
-  const mapMenus = new Map(menus?.map((menu: any) => [menu.id, menu]));
+  const mapMenus = new Map<string, Menus>(
+    menus?.map((menu: Menus) => [menu.id, menu])
+  );
 
   const joinResult = orders
-    ?.filter((order: any) => mapMenus.has(order.menuId))
-    .map((order: any) => ({ ...order, menu: mapMenus.get(order.menuId) }));
+    ?.filter((order: Orders) => mapMenus.has(order.menuId.toString()))
+    .map((order: Orders) => ({
+      ...order,
+      menu: mapMenus.get(order.menuId.toString()),
+    }));
 
-  const printHandler: any = () => {
-    setOrdersById(joinResult.filter((order: any) => order.tableId === tableId));
+  const printHandler = (): void => {
+    setOrdersById(
+      joinResult.filter((order: Orders) => order.tableId === tableId.value)
+    );
+
     setIsShow(true);
   };
 
-  const deleteHandler: any = () => {
+  const deleteHandler = (): void => {
     const deleteById = orders?.filter(
-      (order: any) => order.tableId !== tableId
+      (order: Orders) => order.tableId !== tableId.value
     );
     localStorage.setItem("orders", JSON.stringify(deleteById));
     setOrders(deleteById);
 
+    setTableId(tableOptions[0]);
     setIsShow(false);
   };
 
@@ -68,9 +83,13 @@ const KasirPage = () => {
             <div className="grow mr-2">
               <p className="mb-2">Meja</p>
               <Select
+                value={tableId}
                 options={tableOptions}
-                onChange={(e: any) => {
-                  setTableId(e.value);
+                onChange={(option) => {
+                  setTableId({
+                    value: option?.value || "",
+                    label: option?.label || "",
+                  });
                 }}
                 placeholder="Nomor Meja"
                 instanceId="menu"
@@ -79,22 +98,24 @@ const KasirPage = () => {
             <div className=" mt-auto">
               <button
                 onClick={printHandler}
-                className="text-right bg-zinc-900 hover:bg-zinc-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
-                disabled={tableId === ""}
+                className="text-right bg-zinc-900 hover:bg-zinc-700 text-white py-2 px-4 rounded disabled:opacity-50"
+                disabled={tableId.value === ""}
               >
                 Print Struk
               </button>
             </div>
           </div>
-          <div className="mt-auto">
-            <button
-              onClick={deleteHandler}
-              className="text-right bg-red-800 hover:bg-zinc-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
-              disabled={tableId === ""}
-            >
-              Kosongkan Meja
-            </button>
-          </div>
+          {tableId.value ? (
+            <div className="mt-auto">
+              <button
+                onClick={deleteHandler}
+                className="text-right bg-red-800 hover:bg-zinc-700 text-white py-2 px-4 rounded disabled:opacity-50"
+                disabled={tableId.value === ""}
+              >
+                Kosongkan Meja
+              </button>
+            </div>
+          ) : null}
         </div>
         {isShow ? (
           <div className="overflow-auto p-4">
@@ -108,12 +129,12 @@ const KasirPage = () => {
               </thead>
               <tbody>
                 {menus
-                  ? ordersById?.map((order: any, i: any) => {
+                  ? ordersById?.map((order: Orders, i: number) => {
                       return (
                         <tr key={i} className="border-b">
                           <td className="p-4 text-right">{order.quantity}</td>
                           <td className="p-4 align-middle">
-                            {order.menu.name}
+                            {order.menu?.name}
                           </td>
                           <td className="flex justify-end p-4">Gratis</td>
                         </tr>
