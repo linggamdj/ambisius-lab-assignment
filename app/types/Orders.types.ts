@@ -5,5 +5,5 @@ export type Orders = {
   tableId: string;
   menuId: string;
   quantity: number;
-  menu: Menus;
+  menu?: Menus;
 };
