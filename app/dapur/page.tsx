@@ -38,7 +38,7 @@ const DapurPage = () => {
                 ?.filter((order: Orders) => order.tableId === "1")
                 .map((order: Orders, i: number) => {
                   return (
-                    <p key={i}>{`${order.quantity}x ${order.menu.name}`}</p>
+                    <p key={i}>{`${order.quantity}x ${order.menu?.name}`}</p>
                   );
                 })}
             </div>
@@ -50,7 +50,7 @@ const DapurPage = () => {
                 ?.filter((order: Orders) => order.tableId === "2")
                 .map((order: Orders, i: number) => {
                   return (
-                    <p key={i}>{`${order.quantity}x ${order.menu.name}`}</p>
+                    <p key={i}>{`${order.quantity}x ${order.menu?.name}`}</p>
                   );
                 })}
             </div>
@@ -62,7 +62,7 @@ const DapurPage = () => {
                 ?.filter((order: Orders) => order.tableId === "3")
                 .map((order: Orders, i: number) => {
                   return (
-                    <p key={i}>{`${order.quantity}x ${order.menu.name}`}</p>
+                    <p key={i}>{`${order.quantity}x ${order.menu?.name}`}</p>
                   );
                 })}
             </div>
