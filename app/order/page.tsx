@@ -10,12 +10,13 @@ import { Orders } from "../types/Orders.types";
 const OrderPage = () => {
   const [form, setForm] = useState<OrderForm>({
     tableId: "",
-    menuId: "",
-    quantity: 0,
+    menuId: { value: "", label: "Pilih Menu" },
+    quantity: { value: "0", label: "Kuantitas" },
   });
   const [menus, setMenus] = useState<Menus[] | []>();
-  let menuOptions: Options[] = [];
-  const quantity: Options[] = [
+  let menuOptions: Options[] = [{ value: "", label: "Pilih menu" }];
+  const quantityOptions: Options[] = [
+    { value: 0, label: "Kuantitas" },
     { value: 1, label: "1" },
     { value: 2, label: "2" },
     { value: 3, label: "3" },
@@ -47,14 +48,14 @@ const OrderPage = () => {
     localOrders.push({
       id: Math.floor(100000 + Math.random() * 900000).toString(),
       tableId: form.tableId,
-      menuId: form.menuId,
-      quantity: form.quantity,
+      menuId: form.menuId.value,
+      quantity: form.quantity.value,
     });
 
     setForm({
       tableId: "",
-      menuId: "",
-      quantity: 0,
+      menuId: menuOptions[0],
+      quantity: quantityOptions[0],
     });
 
     localStorage.setItem("orders", JSON.stringify(localOrders));
@@ -64,7 +65,7 @@ const OrderPage = () => {
     <section className="order">
       <div className="h-auto min-h-[300px] p-5 rounded-xl bg-slate-100 text-sm">
         <div className="border rounded-xl bg-white mb-2">
-          <ul className="flex items-center text-sm font-medium">
+          <ul className="flex">
             <li className="flex-1">
               <button
                 onClick={() => {
@@ -73,8 +74,10 @@ const OrderPage = () => {
                     : setForm({ ...form, tableId: "1" });
                 }}
                 className={`${
-                  form.tableId === "1" ? "bg-neutral-900 text-white" : ""
-                } w-full h-[50px] rounded-l-xl px-3 py-2`}
+                  form.tableId === "1"
+                    ? "bg-neutral-900 text-white"
+                    : "hover:bg-slate-50"
+                } w-full h-[70px] rounded-l-xl border-r px-3 py-2`}
               >
                 Meja 1
               </button>
@@ -87,8 +90,10 @@ const OrderPage = () => {
                     : setForm({ ...form, tableId: "2" });
                 }}
                 className={`${
-                  form.tableId === "2" ? "bg-neutral-900 text-white" : ""
-                } w-full h-[50px] flex items-center justify-center px-3 py-2`}
+                  form.tableId === "2"
+                    ? "bg-neutral-900 text-white"
+                    : "hover:bg-slate-50"
+                } w-full h-[70px] px-3 py-2`}
               >
                 Meja 2
               </button>
@@ -101,8 +106,10 @@ const OrderPage = () => {
                     : setForm({ ...form, tableId: "3" });
                 }}
                 className={`${
-                  form.tableId === "3" ? "bg-neutral-900 text-white" : ""
-                } w-full h-[50px] flex items-center justify-center rounded-r-xl px-3 py-2`}
+                  form.tableId === "3"
+                    ? "bg-neutral-900 text-white"
+                    : "hover:bg-slate-50"
+                } w-full h-[70px] rounded-r-xl border-l px-3 py-2`}
               >
                 Meja 3
               </button>
@@ -113,20 +120,34 @@ const OrderPage = () => {
           <div className="grow mr-2">
             <p className="mb-2">Menu</p>
             <Select
+              value={form.menuId}
               options={menuOptions}
-              onChange={(option) => {
-                setForm({ ...form, menuId: option?.value.toString() || "" });
+              onChange={(option: any) => {
+                setForm({
+                  ...form,
+                  menuId: {
+                    value: option?.value.toString() || "",
+                    label: option?.label.toString() || "",
+                  },
+                });
               }}
               placeholder="Pilih menu"
               instanceId="menu"
             />
           </div>
-          <div className="w-[120px]">
+          <div className="w-[130px]">
             <p className="mb-2">Jumlah</p>
             <Select
-              options={quantity}
+              value={form.quantity}
+              options={quantityOptions}
               onChange={(option) => {
-                setForm({ ...form, quantity: Number(option?.value) });
+                setForm({
+                  ...form,
+                  quantity: {
+                    value: Number(option?.value),
+                    label: option?.label.toString() || "",
+                  },
+                });
               }}
               placeholder="Kuantitas"
               instanceId="qty"
@@ -136,9 +157,11 @@ const OrderPage = () => {
         <div className="text-right">
           <button
             onClick={addHandler}
-            className="text-right bg-zinc-900 hover:bg-zinc-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+            className="text-right bg-zinc-900 hover:bg-zinc-700 text-white py-2 px-4 rounded disabled:opacity-50"
             disabled={
-              form.tableId === "" || form.menuId === "" || form.quantity === 0
+              form.tableId === "" ||
+              form.menuId.value === "" ||
+              form.quantity.value === 0
             }
           >
             Tambah
