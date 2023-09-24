@@ -2,27 +2,28 @@
 
 import React, { useState, useEffect } from "react";
 import { AiFillDelete } from "react-icons/ai";
+import { Menus } from "../types/Menus.types";
 
 const MenuPage = () => {
-  const [menus, setMenus] = useState<any>(null);
+  const [menus, setMenus] = useState<Menus[]>();
   const [menu, setMenu] = useState<string>("");
 
   useEffect(() => {
-    let local: any = localStorage.getItem("menus");
+    let local: string | null = localStorage.getItem("menus");
 
     if (local === null) {
       localStorage.setItem(
         "menus",
-        `[{"id":"996756","name":"Ayam Kecap Manis"},{"id":"362342","name":"Nasi Goreng Spesial"}]`
+        `[{"id":"123456","name":"Bebek Madura"},{"id":"654321","name":"Sate Kambing"}]`
       );
-      local = localStorage.getItem("menus");
+      local = localStorage.getItem("menus") || "[]";
     }
 
     setMenus(JSON.parse(local));
   }, []);
 
-  const addHandler: any = () => {
-    menus.push({
+  const addHandler = (): void => {
+    menus?.push({
       id: Math.floor(100000 + Math.random() * 900000).toString(),
       name: menu,
     });
@@ -32,8 +33,10 @@ const MenuPage = () => {
     setMenu("");
   };
 
-  const deleteHandler: any = (id: string) => {
-    const filtered = menus.filter((menu: any) => menu.id !== id);
+  const deleteHandler = (id: string): void => {
+    const filtered: Menus[] | undefined = menus?.filter(
+      (menu: Menus) => menu.id !== id
+    );
 
     localStorage.setItem("menus", JSON.stringify(filtered));
     setMenus(filtered);
@@ -74,7 +77,7 @@ const MenuPage = () => {
             </thead>
             <tbody>
               {menus
-                ? menus?.map((menu: any) => {
+                ? menus?.map((menu: Menus) => {
                     return (
                       <tr key={+menu.id} className="border-b">
                         <td className="p-4 align-middle">{menu.id}</td>
