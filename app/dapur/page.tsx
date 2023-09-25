@@ -29,7 +29,7 @@ const DapurPage = () => {
 
   return (
     <section className="dapur">
-      <div className="h-auto min-h-[300px] p-5 rounded-xl bg-slate-100 text-sm">
+      <div className="h-auto min-h-[300px] p-5 rounded-md bg-slate-100 text-sm">
         <div className="order-tables flex px-2">
           <div className="table-one flex-1">
             <p className="text-xl font-medium">Meja 1</p>

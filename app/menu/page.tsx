@@ -42,7 +42,7 @@ const MenuPage = () => {
 
   return (
     <section className="menu">
-      <div className="h-auto p-5 rounded-xl bg-slate-100 text-sm">
+      <div className="h-auto p-5 rounded-md bg-slate-100 text-sm">
         <p>Menu Makanan</p>
         <div className="flex my-2">
           <input
@@ -50,14 +50,14 @@ const MenuPage = () => {
             onChange={(e) => {
               setMenu(e.target.value);
             }}
-            className="border rounded w-full py-2 px-3 focus:outline-none"
+            className="border rounded-md w-full py-2 px-3 focus:outline-none"
             type="text"
             name="menu"
             placeholder="Tambahkan di sini ..."
           />
           <button
             onClick={addHandler}
-            className="ml-2 bg-zinc-900 hover:bg-zinc-700 text-white py-2 px-4 rounded disabled:opacity-50"
+            className="ml-2 bg-zinc-900 hover:bg-zinc-700 text-white py-2 px-4 rounded-md disabled:opacity-50"
             disabled={!menu}
           >
             Tambah

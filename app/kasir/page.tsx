@@ -21,13 +21,13 @@ const KasirPage = () => {
     const localMenus: string | null = localStorage.getItem("menus") || "[]";
     const localOrders: string | null = localStorage.getItem("orders") || "[]";
 
-    setMenus(JSON.parse(localMenus) || "[]");
-    setOrders(JSON.parse(localOrders) || "[]");
+    setMenus(JSON.parse(localMenus));
+    setOrders(JSON.parse(localOrders));
   }, []);
 
   const uniqueIds = new Set<string>();
 
-  const newArr = orders?.filter((order: Orders) => {
+  const filteredOrders = orders?.filter((order: Orders) => {
     if (!uniqueIds.has(order.tableId)) {
       uniqueIds.add(order.tableId);
       return true;
@@ -36,7 +36,7 @@ const KasirPage = () => {
     return false;
   });
 
-  newArr
+  filteredOrders
     ?.sort((a: Orders, b: Orders) => Number(a.tableId) - Number(b.tableId))
     .map((order: Orders) => {
       tableOptions.push({
@@ -77,7 +77,7 @@ const KasirPage = () => {
 
   return (
     <section className="kasir">
-      <div className="h-auto min-h-[300px] p-5 rounded-xl bg-slate-100 text-sm">
+      <div className="h-auto min-h-[300px] p-5 rounded-md bg-slate-100 text-sm">
         <div className="flex justify-between mb-2">
           <div className="flex w-2/4">
             <div className="grow mr-2">
@@ -98,7 +98,7 @@ const KasirPage = () => {
             <div className=" mt-auto">
               <button
                 onClick={printHandler}
-                className="text-right bg-zinc-900 hover:bg-zinc-700 text-white py-2 px-4 rounded disabled:opacity-50"
+                className="text-right bg-zinc-900 hover:bg-zinc-700 text-white py-2 px-4 rounded-md disabled:opacity-50"
                 disabled={tableId.value === ""}
               >
                 Print Struk
@@ -109,7 +109,7 @@ const KasirPage = () => {
             <div className="mt-auto">
               <button
                 onClick={deleteHandler}
-                className="text-right bg-red-800 hover:bg-zinc-700 text-white py-2 px-4 rounded disabled:opacity-50"
+                className="text-right bg-red-800 hover:bg-zinc-700 text-white py-2 px-4 rounded-md disabled:opacity-50"
                 disabled={tableId.value === ""}
               >
                 Kosongkan Meja
@@ -144,8 +144,9 @@ const KasirPage = () => {
               </tbody>
             </table>
 
-            <p className="text-center font-light mt-5">
-              Daftar menu restoran Anda
+            <p className="text-center text-gray-500 font mt-5">
+              Terima kasih sudah makan di{" "}
+              <span className="font-bold">Restoran</span>
             </p>
           </div>
         ) : null}

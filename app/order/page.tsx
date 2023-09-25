@@ -63,7 +63,7 @@ const OrderPage = () => {
 
   return (
     <section className="order">
-      <div className="h-auto min-h-[300px] p-5 rounded-xl bg-slate-100 text-sm">
+      <div className="h-auto min-h-[300px] p-5 rounded-md bg-slate-100 text-sm">
         <div className="border rounded-xl bg-white mb-4">
           <ul className="flex">
             <li className="flex-1">
@@ -157,7 +157,7 @@ const OrderPage = () => {
         <div className="text-right">
           <button
             onClick={addHandler}
-            className="text-right bg-zinc-900 hover:bg-zinc-700 text-white py-2 px-4 rounded disabled:opacity-50"
+            className="text-right bg-zinc-900 hover:bg-zinc-700 text-white py-2 px-4 rounded-md disabled:opacity-50"
             disabled={
               form.tableId === "" ||
               form.menuId.value === "" ||
