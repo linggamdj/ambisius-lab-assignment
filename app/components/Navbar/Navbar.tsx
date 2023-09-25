@@ -2,9 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { defaultMenus } from "@/app/helpers/Constants";
 
 const Navbar = () => {
   const path = usePathname();
+
+  const resetHandler = (): void => {
+    localStorage.setItem("menus", defaultMenus);
+    localStorage.removeItem("orders");
+
+    window.location.reload();
+  };
 
   return (
     <>
@@ -53,7 +61,10 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <button className="text-white my-auto py-3 px-4 bg-red-900 rounded-md hover:bg-zinc-700">
+        <button
+          className="text-white my-auto py-3 px-4 bg-red-900 rounded-md hover:bg-zinc-700"
+          onClick={resetHandler}
+        >
           Reset
         </button>
       </div>
