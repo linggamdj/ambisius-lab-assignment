@@ -91,6 +91,13 @@ const KasirPage = () => {
                     label: option?.label || "",
                   });
                 }}
+                theme={(theme) => ({
+                  ...theme,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
                 placeholder="Nomor Meja"
                 instanceId="menu"
               />

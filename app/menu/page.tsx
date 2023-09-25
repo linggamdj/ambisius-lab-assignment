@@ -50,7 +50,7 @@ const MenuPage = () => {
             onChange={(e) => {
               setMenu(e.target.value);
             }}
-            className="border rounded-md w-full py-2 px-3 focus:outline-none"
+            className="border rounded-md w-full py-2 px-3 focus:outline-black"
             type="text"
             name="menu"
             placeholder="Tambahkan di sini ..."
@@ -92,7 +92,7 @@ const MenuPage = () => {
             </tbody>
           </table>
 
-          <p className="text-center font-light mt-5">
+          <p className="text-center text-gray-500 mt-5">
             Daftar menu restoran Anda
           </p>
         </div>

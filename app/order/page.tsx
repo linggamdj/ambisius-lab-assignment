@@ -131,6 +131,13 @@ const OrderPage = () => {
                   },
                 });
               }}
+              theme={(theme) => ({
+                ...theme,
+                colors: {
+                  ...theme.colors,
+                  primary: "black",
+                },
+              })}
               placeholder="Pilih menu"
               instanceId="menu"
             />
@@ -149,6 +156,13 @@ const OrderPage = () => {
                   },
                 });
               }}
+              theme={(theme) => ({
+                ...theme,
+                colors: {
+                  ...theme.colors,
+                  primary: "black",
+                },
+              })}
               placeholder="Kuantitas"
               instanceId="qty"
             />

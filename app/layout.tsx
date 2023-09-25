@@ -23,6 +23,9 @@ export default function RootLayout({
             <p className="text-3xl text-black-400 font-medium">
               Sistem Restoran
             </p>
+            <p className="text-sm text-gray-500">
+              Ambisius Coding Challenge #230916H
+            </p>
           </div>
           <Navbar />
           {children}
