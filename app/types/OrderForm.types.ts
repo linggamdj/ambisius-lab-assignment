@@ -1,3 +1,3 @@
-import { Options } from "./Options.types";
+import { Option } from "./Option.types";
 
-export type OrderForm = { tableId: string; menuId: Options; quantity: Options };
+export type OrderForm = { tableId: string; menuId: Option; quantity: Option };

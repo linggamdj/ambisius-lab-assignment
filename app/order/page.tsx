@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { OrderForm } from "../types/OrderForm.types";
-import { Menus } from "../types/Menus.types";
-import { Options } from "../types/Options.types";
-import { Orders } from "../types/Orders.types";
+import { Menu } from "../types/Menu.types";
+import { Option } from "../types/Option.types";
+import { Order } from "../types/Order.types";
 
 const OrderPage = () => {
   const [form, setForm] = useState<OrderForm>({
@@ -13,9 +13,9 @@ const OrderPage = () => {
     menuId: { value: "", label: "Pilih Menu" },
     quantity: { value: 0, label: "Kuantitas" },
   });
-  const [menus, setMenus] = useState<Menus[] | []>();
-  let menuOptions: Options[] = [{ value: "", label: "Pilih menu" }];
-  const quantityOptions: Options[] = [
+  const [menus, setMenus] = useState<Menu[] | []>();
+  let menuOptions: Option[] = [{ value: "", label: "Pilih menu" }];
+  const quantityOptions: Option[] = [
     { value: 0, label: "Kuantitas" },
     { value: 1, label: "1" },
     { value: 2, label: "2" },
@@ -27,7 +27,7 @@ const OrderPage = () => {
     setMenus(JSON.parse(localMenus || "[]"));
   }, []);
 
-  menus?.map((menu: Menus) => {
+  menus?.map((menu: Menu) => {
     menuOptions.push({
       value: menu.id,
       label: menu.name,
@@ -35,7 +35,7 @@ const OrderPage = () => {
   });
 
   const addHandler = (): void => {
-    let localOrders: Array<Orders> | string | null =
+    let localOrders: Array<Order> | string | null =
       localStorage.getItem("orders");
 
     if (localOrders === null) {
@@ -43,7 +43,7 @@ const OrderPage = () => {
       localOrders = localStorage.getItem("orders") || "[]";
     }
 
-    localOrders = JSON.parse(localOrders) as Array<Orders>;
+    localOrders = JSON.parse(localOrders) as Array<Order>;
 
     localOrders.push({
       id: Math.floor(100000 + Math.random() * 900000).toString(),

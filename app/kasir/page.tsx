@@ -2,20 +2,20 @@
 
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
-import { Menus } from "../types/Menus.types";
-import { Orders } from "../types/Orders.types";
-import { Options } from "../types/Options.types";
+import { Menu } from "../types/Menu.types";
+import { Order } from "../types/Order.types";
+import { Option } from "../types/Option.types";
 
 const KasirPage = () => {
-  const [menus, setMenus] = useState<Menus[]>([]);
-  const [orders, setOrders] = useState<Orders[]>([]);
-  const [ordersById, setOrdersById] = useState<Orders[]>();
-  const [tableId, setTableId] = useState<Options>({
+  const [menus, setMenus] = useState<Menu[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [ordersById, setOrdersById] = useState<Order[]>();
+  const [tableId, setTableId] = useState<Option>({
     value: "",
     label: "Nomor Meja",
   });
   const [isShow, setIsShow] = useState<boolean>(false);
-  let tableOptions: Options[] = [{ value: "", label: "Nomor Meja" }];
+  let tableOptions: Option[] = [{ value: "", label: "Nomor Meja" }];
 
   useEffect(() => {
     const localMenus: string | null = localStorage.getItem("menus") || "[]";
@@ -27,7 +27,7 @@ const KasirPage = () => {
 
   const uniqueIds = new Set<string>();
 
-  const filteredOrders = orders?.filter((order: Orders) => {
+  const filteredOrders = orders?.filter((order: Order) => {
     if (!uniqueIds.has(order.tableId)) {
       uniqueIds.add(order.tableId);
       return true;
@@ -37,28 +37,28 @@ const KasirPage = () => {
   });
 
   filteredOrders
-    ?.sort((a: Orders, b: Orders) => Number(a.tableId) - Number(b.tableId))
-    .map((order: Orders) => {
+    ?.sort((a: Order, b: Order) => Number(a.tableId) - Number(b.tableId))
+    .map((order: Order) => {
       tableOptions.push({
         value: order.tableId,
         label: order.tableId,
       });
     });
 
-  const mapMenus = new Map<string | number, Menus>(
-    menus?.map((menu: Menus) => [menu.id, menu])
+  const mapMenus = new Map<string | number, Menu>(
+    menus?.map((menu: Menu) => [menu.id, menu])
   );
 
   const joinResult = orders
-    ?.filter((order: Orders) => mapMenus.has(order.menuId))
-    .map((order: Orders) => ({
+    ?.filter((order: Order) => mapMenus.has(order.menuId))
+    .map((order: Order) => ({
       ...order,
       menu: mapMenus.get(order.menuId),
     }));
 
   const printHandler = (): void => {
     setOrdersById(
-      joinResult.filter((order: Orders) => order.tableId === tableId.value)
+      joinResult.filter((order: Order) => order.tableId === tableId.value)
     );
 
     setIsShow(true);
@@ -66,7 +66,7 @@ const KasirPage = () => {
 
   const deleteHandler = (): void => {
     const deleteById = orders?.filter(
-      (order: Orders) => order.tableId !== tableId.value
+      (order: Order) => order.tableId !== tableId.value
     );
     localStorage.setItem("orders", JSON.stringify(deleteById));
     setOrders(deleteById);
@@ -136,7 +136,7 @@ const KasirPage = () => {
               </thead>
               <tbody>
                 {menus
-                  ? ordersById?.map((order: Orders, i: number) => {
+                  ? ordersById?.map((order: Order, i: number) => {
                       return (
                         <tr key={i} className="border-b">
                           <td className="p-4 text-right">{order.quantity}</td>

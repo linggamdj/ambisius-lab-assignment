@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { AiFillDelete } from "react-icons/ai";
-import { Menus } from "../types/Menus.types";
+import { Menu } from "../types/Menu.types";
 import { defaultMenus } from "../helpers/Constants";
 
 const MenuPage = () => {
-  const [menus, setMenus] = useState<Menus[]>();
+  const [menus, setMenus] = useState<Menu[]>();
   const [menu, setMenu] = useState<string>("");
 
   useEffect(() => {
@@ -32,8 +32,8 @@ const MenuPage = () => {
   };
 
   const deleteHandler = (id: string): void => {
-    const filtered: Menus[] | undefined = menus?.filter(
-      (menu: Menus) => menu.id !== id
+    const filtered: Menu[] | undefined = menus?.filter(
+      (menu: Menu) => menu.id !== id
     );
 
     localStorage.setItem("menus", JSON.stringify(filtered));
@@ -75,7 +75,7 @@ const MenuPage = () => {
             </thead>
             <tbody>
               {menus
-                ? menus?.map((menu: Menus) => {
+                ? menus?.map((menu: Menu) => {
                     return (
                       <tr key={+menu.id} className="border-b">
                         <td className="p-4 align-middle">{menu.id}</td>

@@ -1,9 +1,9 @@
-import { Menus } from "./Menus.types";
+import { Menu } from "./Menu.types";
 
-export type Orders = {
+export type Order = {
   id: string;
   tableId: string;
   menuId: string | number;
   quantity: string | number;
-  menu?: Menus;
+  menu?: Menu;
 };
